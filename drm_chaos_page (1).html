@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DON'T RECORD ME</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: black;
+      color: white;
+      font-family: 'Courier New', Courier, monospace;
+      overflow: hidden;
+    }
+    .glitch {
+      font-size: 3rem;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 20vh;
+      position: relative;
+      animation: glitch-skew 0.5s infinite linear alternate;
+    }
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      color: red;
+      background: black;
+      overflow: hidden;
+      clip: rect(0, 900px, 0, 0);
+    }
+    .glitch::after {
+      color: cyan;
+      animation: glitch-anim 2s infinite linear alternate-reverse;
+    }
+    .glitch::before {
+      color: magenta;
+      animation: glitch-anim2 3s infinite linear alternate-reverse;
+    }
+    @keyframes glitch-anim {
+      0% {
+        clip: rect(0, 9999px, 0, 0);
+        transform: skew(0.3deg);
+      }
+      100% {
+        clip: rect(0, 9999px, 0, 0);
+        transform: skew(-0.3deg);
+      }
+    }
+    @keyframes glitch-anim2 {
+      0% {
+        clip: rect(0, 9999px, 0, 0);
+        transform: skew(-0.5deg);
+      }
+      100% {
+        clip: rect(0, 9999px, 0, 0);
+        transform: skew(0.5deg);
+      }
+    }
+    @keyframes glitch-skew {
+      0% {
+        transform: skew(0.5deg);
+      }
+      100% {
+        transform: skew(-0.5deg);
+      }
+    }
+    .redacted {
+      margin: 2rem auto;
+      width: 90%;
+      color: #f00;
+      font-size: 1.2rem;
+      letter-spacing: 0.2em;
+      text-align: center;
+      filter: blur(1px);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+    .end-tagline {
+      position: absolute;
+      bottom: 5vh;
+      width: 100%;
+      text-align: center;
+      font-size: 1.2rem;
+      color: #fff;
+    }
+    .end-tagline a {
+      color: #f00;
+      font-weight: bold;
+      text-decoration: none;
+      animation: pulse 1s infinite;
+    }
+  </style>
+</head>
+<body>
+  <h1 class="glitch" data-text="I'M FILMING SOMEONE WITHOUT ASKING!">I'M FILMING SOMEONE WITHOUT ASKING!</h1>
+  <p class="redacted">[ACCESSING UNAUTHORIZED SURVEILLANCE NODE] ...
+    <br />REDACTED :: REDACTED :: RECORDING :: REDACTED</p>
+  <p class="redacted">DRM DETECTED / TRACKING INITIATED / IDENTITY CORRUPTED</p>
+  <div class="end-tagline">
+    <p>Don't Record Me. Ever. <a href="https://drm.world">→ RETURN TO DRM</a></p>
+  </div>
+
+  <audio autoplay loop>
+  <source src="https://DRM2411.github.io/DRM-Chaos/drm_chaos_screech.mp3" type="audio/mpeg">
+</audio>
+
+</body>
+</html>
