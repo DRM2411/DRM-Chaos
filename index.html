@@ -15,6 +15,7 @@
       color: white;
       font-family: 'Courier New', Courier, monospace;
       overflow: hidden;
+      position: relative;
     }
     .glitch {
       font-size: 3rem;
@@ -100,9 +101,28 @@
       text-decoration: none;
       animation: pulse 1s infinite;
     }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.95);
+      color: #fff;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      animation: pulse 2s infinite;
+    }
   </style>
 </head>
 <body>
+  <div class="overlay" id="unlockOverlay">👁️‍🗨️ TAP TO UNLOCK</div>
+
   <h1 class="glitch" data-text="I'M FILMING SOMEONE WITHOUT ASKING!">I'M FILMING SOMEONE WITHOUT ASKING!</h1>
   <p class="redacted">[ACCESSING UNAUTHORIZED SURVEILLANCE NODE] ...
     <br />REDACTED :: REDACTED :: RECORDING :: REDACTED</p>
@@ -111,9 +131,23 @@
     <p>Don't Record Me. Ever. <a href="https://drm.world">→ RETURN TO DRM</a></p>
   </div>
 
-  <audio autoplay loop>
-  <source src="https://DRM2411.github.io/DRM-Chaos/drm_chaos_screech.mp3" type="audio/mpeg">
-</audio>
+  <audio id="chaosAudio" preload="auto">
+    <source src="https://DRM2411.github.io/DRM-Chaos/drm_chaos_screech.mp3" type="audio/mpeg">
+  </audio>
 
+  <script>
+    const chaosAudio = document.getElementById('chaosAudio');
+    const overlay = document.getElementById('unlockOverlay');
+
+    const unlock = () => {
+      chaosAudio.play();
+      overlay.style.display = 'none';
+      document.body.removeEventListener('click', unlock);
+      document.body.removeEventListener('touchstart', unlock);
+    };
+
+    overlay.addEventListener('click', unlock);
+    overlay.addEventListener('touchstart', unlock);
+  </script>
 </body>
 </html>
