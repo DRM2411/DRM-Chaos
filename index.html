@@ -5,66 +5,43 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DON'T RECORD ME</title>
   <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      background:#000; color:#fff; font-family: "Courier New", Courier, monospace;
-      overflow:hidden; position:relative;
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:#000;color:#fff;font-family:"Courier New",Courier,monospace;overflow:hidden;position:relative}
+    .glitch{font-size:3rem;font-weight:bold;text-align:center;margin-top:20vh;position:relative;animation:glitch-skew .5s infinite linear alternate}
+    .glitch::before,.glitch::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;background:#000;overflow:hidden;clip:rect(0, 900px, 0, 0)}
+    .glitch::after{color:cyan;animation:glitch-anim 2s infinite linear alternate-reverse}
+    .glitch::before{color:magenta;animation:glitch-anim2 3s infinite linear alternate-reverse}
+    @keyframes glitch-anim{0%{clip:rect(0,9999px,0,0);transform:skew(.3deg)}100%{clip:rect(0,9999px,0,0);transform:skew(-.3deg)}}
+    @keyframes glitch-anim2{0%{clip:rect(0,9999px,0,0);transform:skew(-.5deg)}100%{clip:rect(0,9999px,0,0);transform:skew(.5deg)}}
+    @keyframes glitch-skew{0%{transform:skew(.5deg)}100%{transform:skew(-.5deg)}}
+    @keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+    .redacted{margin:2rem auto;width:90%;color:#f00;font-size:1.2rem;letter-spacing:.2em;text-align:center;filter:blur(1px);animation:pulse 2s infinite}
+    .end-tagline{position:absolute;bottom:5vh;width:100%;text-align:center;font-size:1.2rem;color:#fff}
+    .end-tagline a{color:#f00;font-weight:bold;text-decoration:none;animation:pulse 1s infinite}
+    .overlay{
+      position:fixed;inset:0;background:rgba(0,0,0,.96);color:#fff;z-index:9999;display:flex;
+      align-items:center;justify-content:center;text-align:center;cursor:pointer;font-size:1.2rem;line-height:1.4;
+      border:2px dashed #f00;animation:pulse 1.5s infinite;padding:0 1.25rem
     }
-    .glitch {
-      font-size:3rem; font-weight:bold; text-align:center; margin-top:20vh; position:relative;
-      animation:glitch-skew .5s infinite linear alternate;
+    .background-chaos{position:fixed;inset:0;background:url('https://media.giphy.com/media/l0ExdMHUDKteztyfe/giphy.gif') center/cover no-repeat;opacity:.08;pointer-events:none;z-index:0;mix-blend-mode:screen}
+    .chaos-text{position:absolute;top:10vh;left:0;width:100%;text-align:center;font-size:.9rem;color:#888;opacity:.3;pointer-events:none;user-select:none}
+    .pill{ /* style for the small "PRESS TO EXIT" button after tap */
+      position:fixed;right:1rem;bottom:1rem;z-index:10000;background:rgba(0,0,0,.6);
+      border:1px solid #f00;border-radius:9999px;padding:.6rem .9rem;font-size:.9rem;animation:none
     }
-    .glitch::before, .glitch::after {
-      content:attr(data-text); position:absolute; top:0; left:0; width:100%; background:#000;
-      overflow:hidden; clip:rect(0, 900px, 0, 0);
-    }
-    .glitch::after { color:cyan;    animation:glitch-anim 2s infinite linear alternate-reverse; }
-    .glitch::before{ color:magenta; animation:glitch-anim2 3s infinite linear alternate-reverse; }
-
-    @keyframes glitch-anim   { 0%{clip:rect(0,9999px,0,0); transform:skew(.3deg);} 100%{clip:rect(0,9999px,0,0); transform:skew(-.3deg);} }
-    @keyframes glitch-anim2  { 0%{clip:rect(0,9999px,0,0); transform:skew(-.5deg);} 100%{clip:rect(0,9999px,0,0); transform:skew(.5deg);} }
-    @keyframes glitch-skew   { 0%{transform:skew(.5deg);} 100%{transform:skew(-.5deg);} }
-    @keyframes pulse         { 0%,100%{opacity:.4;} 50%{opacity:1;} }
-
-    .redacted {
-      margin:2rem auto; width:90%; color:#f00; font-size:1.2rem; letter-spacing:.2em; text-align:center;
-      filter:blur(1px); animation:pulse 2s infinite;
-    }
-    .end-tagline {
-      position:absolute; bottom:5vh; width:100%; text-align:center; font-size:1.2rem; color:#fff;
-    }
-    .end-tagline a { color:#f00; font-weight:bold; text-decoration:none; animation:pulse 1s infinite; }
-
-    .overlay {
-      position:fixed; inset:0; background:rgba(0,0,0,.95); color:#fff; z-index:9999;
-      display:flex; align-items:center; justify-content:center; text-align:center; cursor:pointer;
-      font-size:1.4rem; line-height:1.4;
-      border:2px dashed #f00; animation:pulse 1.5s infinite;
-      padding:0 1.25rem;
-    }
-    .background-chaos {
-      position:fixed; inset:0; background:url('https://media.giphy.com/media/l0ExdMHUDKteztyfe/giphy.gif') center/cover no-repeat;
-      opacity:.08; pointer-events:none; z-index:0; mix-blend-mode:screen;
-    }
-    .chaos-text {
-      position:absolute; top:10vh; left:0; width:100%; text-align:center; font-size:.9rem; color:#888; opacity:.3; pointer-events:none; user-select:none;
-    }
-
-    /* smaller screens: tighter text */
-    @media (max-width: 360px){
-      .glitch { font-size: 2.2rem; margin-top: 18vh; }
-    }
+    .hidden{display:none !important}
+    @media (max-width:360px){.glitch{font-size:2.2rem;margin-top:18vh}}
   </style>
 </head>
 <body>
-  <div class="overlay" id="unlockOverlay">
-    👁️‍🗨️ TAP TO UNLOCK<br/>AUDIO + CHAOS WILL TRIGGER
-  </div>
+  <!-- Initial overlay does not mention audio -->
+  <div class="overlay" id="overlay">TAP TO CONTINUE</div>
+
   <div class="background-chaos"></div>
 
   <h1 class="glitch" data-text="I'M FILMING SOMEONE WITHOUT ASKING!">I'M FILMING SOMEONE WITHOUT ASKING!</h1>
   <p class="redacted">[ACCESSING UNAUTHORIZED SURVEILLANCE NODE] ...
-    <br />REDACTED :: REDACTED :: RECORDING :: REDACTED</p>
+    <br/>REDACTED :: REDACTED :: RECORDING :: REDACTED</p>
   <p class="redacted">DRM DETECTED / TRACKING INITIATED / IDENTITY CORRUPTED</p>
   <div class="chaos-text">nuclear baby nuclear baby nuclear baby nuclear baby</div>
 
@@ -72,53 +49,74 @@
     <p>Join the movement. <a href="https://drm.world" rel="noopener">→ SHOP DRM</a></p>
   </div>
 
-  <!-- Put chaos.mp3 in the SAME folder as index.html -->
-  <audio id="chaosAudio" preload="auto" playsinline>
-    <source src="./chaos.mp3" type="audio/mpeg">
-  </audio>
+  <!-- Keep both an <audio> element and a WebAudio fallback -->
+  <audio id="chaosAudio" preload="auto" playsinline></audio>
 
   <script>
-    const overlay = document.getElementById('unlockOverlay');
-    const audioEl = document.getElementById('chaosAudio');
+    // 🔊 CHANGE THIS to the exact file name in your repo (case-sensitive).
+    // Best: rename your file to chaos.mp3 and keep this as-is.
+    const AUDIO_URL = './chaos.mp3';
 
-    async function playAudioWithFallback() {
-      // try plain HTML5 audio first
+    const overlay = document.getElementById('overlay');
+    const audioEl = document.getElementById('chaosAudio');
+    let webCtx = null, webSrc = null;
+
+    // Prepare the <audio> tag source programmatically (avoids stale caches)
+    audioEl.src = AUDIO_URL;
+
+    // Plays audio; falls back to WebAudio if native play() is blocked or fails
+    async function playAudioRobust() {
       try {
         audioEl.currentTime = 0;
         await audioEl.play();
-        return;
-      } catch (err) {
-        // Fallback: WebAudio (helps some Android/iOS builds)
+        return 'html5';
+      } catch (e1) {
         try {
-          const AudioCtx = window.AudioContext || window.webkitAudioContext;
-          const ctx = new AudioCtx();
-          await ctx.resume();
-          const res = await fetch('./chaos.mp3', { cache: 'no-store' });
-          const buf = await res.arrayBuffer();
-          const decoded = await new Promise((resolve, reject) =>
-            ctx.decodeAudioData(buf, resolve, reject)
-          );
-          const src = ctx.createBufferSource();
-          src.buffer = decoded;
-          src.connect(ctx.destination);
-          src.start(0);
+          const Ctx = window.AudioContext || window.webkitAudioContext;
+          webCtx = new Ctx();
+          await webCtx.resume();
+          const res = await fetch(AUDIO_URL, {cache:'no-store'});
+          const arr = await res.arrayBuffer();
+          const buf = await new Promise((ok, err)=> webCtx.decodeAudioData(arr, ok, err));
+          webSrc = webCtx.createBufferSource();
+          webSrc.buffer = buf;
+          webSrc.connect(webCtx.destination);
+          webSrc.start(0);
+          return 'webaudio';
         } catch (e2) {
-          console.warn('Audio fallback failed:', e2);
+          console.warn('Audio failed (HTML5 + WebAudio):', e1, e2);
+          return 'failed';
         }
       }
     }
 
-    const unlock = async () => {
-      overlay.style.display = 'none';
-      // small tactile buzz on Android
-      if (navigator.vibrate) navigator.vibrate(60);
-      await playAudioWithFallback();
-      document.body.removeEventListener('click', unlock, { passive: true });
-      document.body.removeEventListener('touchstart', unlock, { passive: true });
-    };
+    function stopAudio() {
+      try { audioEl.pause(); audioEl.currentTime = 0; } catch(_) {}
+      try { if (webSrc) { webSrc.stop(0); webSrc.disconnect(); webSrc = null; } } catch(_) {}
+      try { if (webCtx) { webCtx.close(); webCtx = null; } } catch(_) {}
+    }
 
-    overlay.addEventListener('click', unlock, { passive: true });
-    overlay.addEventListener('touchstart', unlock, { passive: true });
+    function turnOverlayIntoExitButton() {
+      overlay.textContent = 'PRESS TO EXIT';
+      overlay.classList.add('pill');
+      overlay.onclick = () => {
+        stopAudio();
+        // Minimal “clear”: fade to black and hide everything
+        document.body.innerHTML = '';
+        document.body.style.background = '#000';
+      };
+    }
+
+    async function handleTap() {
+      if (navigator.vibrate) navigator.vibrate(40);
+      const mode = await playAudioRobust();
+      // if you want to debug on device, uncomment next line:
+      // alert('Audio mode: ' + mode);
+      turnOverlayIntoExitButton();
+    }
+
+    overlay.addEventListener('click', handleTap, { passive:true });
+    overlay.addEventListener('touchstart', handleTap, { passive:true });
   </script>
 </body>
 </html>
